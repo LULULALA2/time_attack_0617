@@ -2,11 +2,21 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
 
 
+class UserType(models.Model):
+    class Meta:
+        db_table = "user_type"
+
+    user_type = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user_type
+
+
 # custom user model 사용 시 UserManager 클래스와 create_user, create_superuser 함수가 정의되어 있어야 함
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
-            raise ValueError('Users must have an email')
+            raise ValueError('Users must have an username')
         user = self.model(
             email=email,
         )
@@ -26,6 +36,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    user_type = models.ForeignKey(UserType, on_delete=models.SET_NULL, null=True)
     email = models.EmailField("사용자 계정", max_length=100, unique=True)
     password = models.CharField("비밀번호", max_length=128)
     fullname = models.CharField("이름", max_length=20)

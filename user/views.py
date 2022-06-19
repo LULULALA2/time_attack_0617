@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, permissions
 
-from .models import User
+from .models import User, UserType
 
 
 class SignApiView(APIView):
@@ -17,9 +17,11 @@ class SignApiView(APIView):
         fullname = request.data.get('fullname', '')
         email = request.data.get('email', '')
         password = request.data.get('password', '')
+        usertype = request.data.get('usertype', '')
+        user_type = UserType.objects.get(user_type=usertype)
 
         hash_password = make_password(password)
-        User.objects.create(fullname=fullname, email=email, password=hash_password)
+        User.objects.create(fullname=fullname, email=email, password=hash_password, user_type=user_type)
         return Response({"message": f"{fullname}님, 회원가입을 환영합니다!"}, status=status.HTTP_200_OK)
 
 
