@@ -1,5 +1,5 @@
 """
-WSGI config for drf_class project.
+WSGI config for time_attack_0617 project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'drf_class.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'time_attack_0617.settings')
 
 application = get_wsgi_application()
