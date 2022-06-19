@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.hashers import make_password
 
@@ -5,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, permissions
 
-from .models import User, UserType
+from .models import User, UserType, UserLog
 
 
 class SignApiView(APIView):
@@ -36,6 +38,12 @@ class UserApiView(APIView):
             return Response({"error": "존재하지 않는 계정이거나 패스워드가 일치하지 않습니다."}, status=status.HTTP_401_UNAUTHORIZED)
 
         login(request, user)
+
+        now = datetime.datetime.now()
+        print(now)
+        print(now.strftime('%Y-%m-%d'))
+
+        UserLog.objects.create(user=user, last_login_date=now.strftime('%Y-%m-%d'))
         return Response({"message": "로그인 성공!!"}, status=status.HTTP_200_OK)
 
     def delete(self, request):

@@ -84,3 +84,10 @@ class UserProfile(models.Model):
     bio = models.TextField("소개", max_length=500, blank=True)
 
 
+class UserLog(models.Model):
+    class Meta:
+        db_table = "user_log"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    last_login_date = models.DateField()
+    last_apply_date = models.DateField(null=True)
